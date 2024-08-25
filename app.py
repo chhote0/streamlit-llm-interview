@@ -1,75 +1,56 @@
 import streamlit as st
 import numpy as np
 import time
+import webbrowser
+import requests
 
 
 
 st.title("Yapay Zeka ile Mülakata Hoş Geldiniz")
 
-st.selectbox('Pozisyonunuzu Seçiniz', ["Java Developer","Data Scientist","Data Analyst","Front-End Developer", 
+def user_preferences():
+
+    position = st.selectbox('Pozisyonunuzu Seçiniz', ["Java Developer","Data Scientist","Data Analyst","Front-End Developer", 
                                        "Back-End Developer","Full-Stack Developer","Mobil Uygulama Geliştiricisi",
                                         "Yazılım Mühendisi","Gömülü Sistemler","Robotik","Veritabanı Yönetimi"])
+    level = st.selectbox('Seviyenizi Seçiniz', ["Junior","Middle","Senior","Expert"])
+    difficulty = st.selectbox('Mülakat Zorluğu Seçiniz', ["Kolay","Orta","Zor"])
 
-st.selectbox('Seviyenizi Seçiniz', ["Junior","Middle","Senior","Expert"])
+    user_inputs = [position, level, difficulty]
 
-st.selectbox('Mülakat Zorluğu Seçiniz', ["Kolay","Orta","Zor"])
+    return user_inputs  #kullanıcı girdilerini liste olarak çıkarır
+
+user_inputs = user_preferences()  #kullanıcı girdileri (Her bir bot bu verileri kullanacak)
+
 
 st.title("Hangi botla mülakat yapmak istersiniz?")
 
 
+#link fonksiyonları     (localhost adresleri değişebilir. Proje öncesi kontrol edilmeli)
+def open_llama():
+    url = 'http://localhost:8502/llama'  
+    webbrowser.open_new_tab(url)
+
+def open_mistral():
+    url = 'http://localhost:8502/mistral'  
+    webbrowser.open_new_tab(url)
+
+def open_chat_gpt():
+    url = 'http://localhost:8502/chatgpt    '  
+    webbrowser.open_new_tab(url)
+
+def open_mulakat():
+    url = 'http://localhost:8502/mulakat'  
+    webbrowser.open_new_tab(url)
 
 
-#selected = st.sidebar.selectbox("**Bot Seçiniz**", ["Llama", "Mistral", "Chat GPT", "Bla Bla"])
-
-
-
-if 'bot_clicked' not in st.session_state:
-    st.session_state.bot_clicked = False 
-
-# Bot ekranları
-def llama_screen():
-    st.session_state.bot_clicked = True
-    st.title("Llama Ekranı")
-    st.write("Bu Llama modeliyle yapacağınız mülakat ekranı.")
-    # Llama modeliyle ilgili işlemler buraya gelecek
-
-def mistral_screen():
-    st.session_state.bot_clicked = True
-    st.title("mistral Ekranı")
-    st.write("Bu mistral modeliyle yapacağınız mülakat ekranı.")
-    # mistral modeliyle ilgili işlemler buraya gelecek
-
-def chat_gpt_screen():
-    st.session_state.bot_clicked = True
-    st.title("chat_gpt Ekranı")
-    st.write("Bu chat_gpt modeliyle yapacağınız mülakat ekranı.")
-    # chat_gpt modeliyle ilgili işlemler buraya gelecek
-
-def bla_bla_screen():
-    st.session_state.bot_clicked = True
-    st.title("bla_bla Ekranı")
-    st.write("Bu bla_bla modeliyle yapacağınız mülakat ekranı.")
-    # bla_bla modeliyle ilgili işlemler buraya gelecek
-
-
+#Butonlar
 col1, col2, col3, col4 = st.columns(4)
 with col1:
-    st.button("Llama", on_click=llama_screen)
+    st.button("Llama", on_click=open_llama)
 with col2:
-    st.button("Mistral", on_click=mistral_screen)
+    st.button("Mistral", on_click=open_mistral)   
 with col3:
-    st.button("Chat GPT", on_click=chat_gpt_screen)
+    st.button("Chat GPT", on_click=open_chat_gpt)
 with col4:
-    st.button("Bla Bla", on_click=bla_bla_screen)
-
-
-
-# if selected == "Llama":
-#     llama_screen()
-# elif selected == "Mistral":
-#     mistral_screen()
-# elif selected == "Chat GPT":
-#     chat_gpt_screen()
-# else:
-#     bla_bla_screen()
-
+    st.button("Mülakat", on_click=open_mulakat)
