@@ -28,19 +28,19 @@ st.title("Hangi botla mülakat yapmak istersiniz?")
 
 #link fonksiyonları     (localhost adresleri değişebilir. Proje öncesi kontrol edilmeli)
 def open_llama():
-    url = 'http://localhost:8502/llama'  
+    url = 'http://localhost:8501/llama'  
     webbrowser.open_new_tab(url)
 
 def open_mistral():
-    url = 'http://localhost:8502/mistral'  
+    url = 'http://localhost:8501/mistral'  
     webbrowser.open_new_tab(url)
 
 def open_chat_gpt():
-    url = 'http://localhost:8502/chatgpt    '  
+    url = 'http://localhost:8501/chatgpt    '  
     webbrowser.open_new_tab(url)
 
 def open_mulakat():
-    url = 'http://localhost:8502/mulakat'  
+    url = 'http://localhost:8501/mulakat'  
     webbrowser.open_new_tab(url)
 
 
