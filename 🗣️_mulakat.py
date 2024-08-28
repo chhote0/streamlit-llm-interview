@@ -2,21 +2,11 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from transformers import pipeline
-import time
-import webbrowser
-import requests
-
-st.title("Karşılıklı Mülakat")
-
-
-def open_main():
-    url = 'http://localhost:8502'  
-    webbrowser.open_new_tab(url)
-
-
 from openai import OpenAI
 import streamlit as st
 
+
+st.title("Karşılıklı Mülakat")
 
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])  #API tanımlı değil. Örnek olsun diye konulmustur
 
@@ -49,4 +39,9 @@ if prompt := st.chat_input("What is up?"):
 
 
 
-st.button("Ana Sayfaya Dön", on_click=open_main)
+# #ana sayfaya dön
+# def open_main():                   
+#     url = 'http://localhost:8501'  
+#     webbrowser.open_new_tab(url)
+
+# st.button("Ana Sayfaya Dön", on_click=open_main)

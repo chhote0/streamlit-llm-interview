@@ -2,9 +2,6 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from transformers import pipeline
-import time
-import webbrowser
-import requests
 
 st.title("Llama")
 
@@ -59,8 +56,9 @@ if st.button("Mülakata Başla!"):
 #         st.warning("Cevabınızda eksiklikler olabilir.")
 
 
-def open_main():
-    url = 'http://localhost:8502'  
-    webbrowser.open_new_tab(url)
+# #ana sayfaya dön
+# def open_main():                   
+#     url = 'http://localhost:8501'  
+#     webbrowser.open_new_tab(url)
 
-st.button("Ana Sayfaya Dön", on_click=open_main)
+# st.button("Ana Sayfaya Dön", on_click=open_main)
