@@ -1,43 +1,60 @@
 import streamlit as st
-import pandas as pd
-import numpy as np
-from transformers import pipeline
-from openai import OpenAI
-import streamlit as st
+from langchain_ollama import OllamaLLM
+from langchain_core.prompts import ChatPromptTemplate
 
 
 st.title("Karşılıklı Mülakat")
 
-client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])  #API tanımlı değil. Örnek olsun diye konulmustur
 
-if "openai_model" not in st.session_state:
-    st.session_state["openai_model"] = "gpt-3.5-turbo"
+template = """
+Answer the question below.
 
-if "messages" not in st.session_state:
-    st.session_state.messages = []
+Here is the conversation history: {context}
 
-for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
+Question: {question}
 
-if prompt := st.chat_input("What is up?"):
-    st.session_state.messages.append({"role": "user", "content": prompt})
-    with st.chat_message("user"):
-        st.markdown(prompt)
+Answer:
+"""
 
-    with st.chat_message("assistant"):
-        stream = client.chat.completions.create(
-            model=st.session_state["openai_model"],
-            messages=[
-                {"role": m["role"], "content": m["content"]}
-                for m in st.session_state.messages
-            ],
-            stream=True,
-        )
-        response = st.write_stream(stream)
-    st.session_state.messages.append({"role": "assistant", "content": response})
+# Model ve prompt'u tanımla
+model = OllamaLLM(model="llama3")
+prompt = ChatPromptTemplate.from_template(template)
+chain = prompt | model
 
+# Konuşma geçmişini saklamak için bir değişken
+if "context" not in st.session_state:
+    st.session_state.context = ""
 
+# İlk soru, AI tarafından sorulur
+if not st.session_state.context:
+    initial_question = "Mülakat yapmak ister misin?"
+    st.session_state.context = f"AI: {initial_question}"
+    st.markdown(f"<p style='color:lightblue;'><strong>AI: {initial_question}</strong></p>", unsafe_allow_html=True)
+
+# Kullanıcıdan input al
+user_input = st.text_input("You:")
+
+# Eğer kullanıcı bir input girdiyse ve 'Gönder' butonuna basarsa
+if st.button("Gönder"):
+    if user_input:
+        # Modelden cevap al
+        result = chain.invoke({"context": st.session_state.context, "question": user_input})
+
+        # Konuşma geçmişini güncelle
+        st.session_state.context += f"\nUser: {user_input}\nAI: {result}"
+
+# Konuşma geçmişini görüntüle
+if st.session_state.context:
+    st.write("## Konuşma Geçmişi")
+    st.markdown("<div style='background-color:#f1f1f1; padding:10px; border-radius:10px; max-height:300px; overflow-y:scroll;'>", unsafe_allow_html=True)
+
+    for line in st.session_state.context.split("\n"):
+        if line.startswith("User:"):
+            st.markdown(f"<p style='color:white; background-color:#007bff; padding:10px; border-radius:10px; margin-bottom:5px; max-width:70%; align-self:flex-end;'><strong>{line}</strong></p>", unsafe_allow_html=True)
+        elif line.startswith("AI:"):
+            st.markdown(f"<p style='color:lightblue; background-color:#f0f0f0; padding:10px; border-radius:10px; margin-bottom:5px; max-width:70%; align-self:flex-start;'><strong>{line}</strong></p>", unsafe_allow_html=True)
+    
+    st.markdown("</div>", unsafe_allow_html=True)
 
 # #ana sayfaya dön
 # def open_main():                   
