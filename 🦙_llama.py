@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 from transformers import pipeline
 
-st.title("Llama")
+st.title("🦙Llama")
 
 st.info("""
 Bu seansta, Llama Yapay Zeka Mülakatçısı, pozisyonunuzla ilgili teknik becerilerinizi değerlendirecektir.

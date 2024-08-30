@@ -4,7 +4,7 @@ from langchain_core.prompts import ChatPromptTemplate
 import ast
 
 
-st.title("Karşılıklı Mülakat")
+st.title("👉🏻Karşılıklı Mülakat👈🏻")
 
 
 

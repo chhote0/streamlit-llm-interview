@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\llm\streamlit-llm-interview\chatbot
+set VIRTUAL_ENV=C:\Users\MONSTER\streamlit-llm-interview\chatbot
 
 if not defined PROMPT set PROMPT=$P$G
 

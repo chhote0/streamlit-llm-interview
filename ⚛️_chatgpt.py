@@ -4,7 +4,7 @@ import numpy as np
 from transformers import pipeline
 
 
-st.title("ChatGPT")
+st.title("💬ChatGPT")
 
 st.info("""
 Bu seansta, ChatGPT Yapay Zeka Mülakatçısı, pozisyonunuzla ilgili teknik becerilerinizi değerlendirecektir.
