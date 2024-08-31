@@ -8,15 +8,19 @@ def user_preferences():
 
     position = st.selectbox('Pozisyonunuzu Seçiniz', ["Java Developer","Data Scientist","Data Analyst","Front-End Developer", 
                                        "Back-End Developer","Full-Stack Developer","Mobil Uygulama Geliştiricisi",
-                                        "Yazılım Mühendisi","Gömülü Sistemler","Robotik","Veritabanı Yönetimi"])
-    level = st.selectbox('Seviyenizi Seçiniz', ["Junior","Middle","Senior","Expert"])
-    difficulty = st.selectbox('Mülakat Zorluğu Seçiniz', ["Kolay","Orta","Zor"])
+                                        "Yazılım Mühendisi","Gömülü Sistemler","Robotik","Veritabanı Yönetimi"],index=st.session_state.get('selected_position_index', 0))
+    level = st.selectbox('Seviyenizi Seçiniz', ["Junior","Middle","Senior","Expert"],index=st.session_state.get('selected_level_index', 0))
+    difficulty = st.selectbox('Mülakat Zorluğu Seçiniz', ["Kolay","Orta","Zor"], index=st.session_state.get('selected_difficulty_index', 0))
 
-    user_inputs = [position, level, difficulty]
+    st.session_state.selected_position = position
+    st.session_state.selected_level = level
+    st.session_state.selected_difficulty = difficulty
 
+    user_inputs = [position, difficulty]
     return user_inputs  #kullanıcı girdilerini liste olarak çıkarır
 
 user_inputs = user_preferences()  #kullanıcı girdileri (Her bir bot bu verileri kullanacak)
+
 
 
 # st.title("Hangi botla mülakat yapmak istersiniz?")
