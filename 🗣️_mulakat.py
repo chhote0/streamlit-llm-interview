@@ -2,14 +2,11 @@ import streamlit as st
 from langchain_ollama import OllamaLLM
 from langchain_core.prompts import ChatPromptTemplate
 import ast
+from app import user_inputs
 
 
 st.title("👉🏻Karşılıklı Mülakat👈🏻")
 
-
-
-# Kullanıcı girdi değişkeni
-user_inputs = ["Data Scientist", "Orta"]  # [position, difficulty]
 
 # Model ve prompt'u tanımla
 model = OllamaLLM(model="llama3")
