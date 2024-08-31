@@ -7,7 +7,7 @@ st.set_page_config(page_title="Yapay Zeka ile Mülakata Hoş Geldiniz", layout="
 # Sayfanın ortasında yazı
 st.markdown(
     "<div style='display: flex; flex-direction: column; align-items: center; height: 50vh; justify-content: center;'>"
-    "<h1 style='text-align: center; font-size: 3rem;'>📝 Yapay Zeka ile Mülakata Hoş Geldiniz</h1>"
+    "<h1 style='text-align: center; font-size: 5rem;'>📝 Yapay Zeka ile Mülakata Hoş Geldiniz</h1>"
     "</div>",
     unsafe_allow_html=True,
 )
