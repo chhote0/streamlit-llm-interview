@@ -1,6 +1,10 @@
 import streamlit as st
 from langchain_ollama import OllamaLLM
 
+
+st.title("🦙Llama")
+
+
 # Sample CV data for the candidate
 cv_data = {
     "candidate_name": "Ahmet",
@@ -25,7 +29,7 @@ if "interview_context" not in st.session_state:
     st.session_state.interview_context = []
 
 # Define the LLM model
-model = OllamaLLM(model="ollama_prompt")
+model = OllamaLLM(model="llama3")
 
 def generate_question(cv_data):
     # Generate a question based on the candidate's CV data
@@ -43,8 +47,6 @@ def provide_feedback(user_answer):
             )
     return model.invoke(input=feedback_prompt)
 
-# Streamlit UI
-st.title("Llama Yapay Zeka Mülakatçısı")
 
 st.info("""
 Bu seansta, Llama Yapay Zeka Mülakatçısı, pozisyonunuzla ilgili teknik becerilerinizi değerlendirecektir.

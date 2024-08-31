@@ -4,7 +4,7 @@ import numpy as np
 
 
 giris_page = st.Page(
-    page = "✋_app.py",
+    page = "app.py",
     title = "Teknik Mülakata Giriş",
     icon = ":material/account_circle:",
     default = True,    
@@ -41,7 +41,7 @@ mulakat_page = st.Page(
 
 
 
-pg = st.navigation(pages=[st.Page("✋_app.py"), st.Page("🦙_llama.py"), st.Page("🤖_mistral.py"), 
+pg = st.navigation(pages=[st.Page("app.py"), st.Page("🦙_llama.py"), st.Page("🤖_mistral.py"), 
                           st.Page("⚛️_chatgpt.py"), st.Page("🗣️_mulakat.py")])
 
 pg.run()
