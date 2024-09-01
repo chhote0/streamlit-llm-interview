@@ -1,65 +1,107 @@
 import streamlit as st
-import pandas as pd
-import numpy as np
-from transformers import pipeline
+from transformers import GPT2LMHeadModel, GPT2Tokenizer
+import torch
+
+st.title("GPT-2 ile Teknik Mülakat Simülasyonu")
+
+# GPT-2 modelini ve tokenizer'ı Hugging Face'ten yükleyin
+model_name = "openai-community/gpt2"
+tokenizer = GPT2Tokenizer.from_pretrained(model_name)
+model = GPT2LMHeadModel.from_pretrained(model_name)
 
 
-st.title("💬ChatGPT")
+def get_user_selection():
+    """
+    Kullanıcının pozisyon, seviye ve mülakat zorluk seviyesini seçmesini sağlar.
+    """
+    if 'selected_position' not in st.session_state:
+        st.session_state.selected_position = "Yazılım Geliştirici"
+    if 'selected_level' not in st.session_state:
+        st.session_state.selected_level = "Junior"
 
-st.info("""
-Bu seansta, ChatGPT Yapay Zeka Mülakatçısı, pozisyonunuzla ilgili teknik becerilerinizi değerlendirecektir.
+    position = st.selectbox('Pozisyon Seçin', [
+        "Yazılım Geliştirici", "Veri Bilimci", "Makine Öğrenimi Mühendisi", "Sistem Mühendisi",
+        "Ağ Mühendisi", "Siber Güvenlik Uzmanı", "Mobil Geliştirici", "Oyun Geliştirici"],
+                            index=st.session_state.get('selected_position_index', 0))
 
-Not: Cevabınızın maksimum uzunluğu 4000 kelime olmalıdır!
+    level = st.selectbox('Deneyim Seviyesi', ["Junior", "Orta", "Kıdemli", "Uzman"],
+                         index=st.session_state.get('selected_level_index', 0))
 
-Her mülakat 10-15 dakika sürecektir.
-Yeni bir seans başlatmak için sayfayı yenileyin.
-""")
+    st.session_state.selected_position = position
+    st.session_state.selected_level = level
 
-
-if st.button("Mülakata Başla!"):
-    st.text_area("ChatGPT:", "Merhaba! Teknik mülakatımıza hoş geldiniz. İlk sorumuz: Veri biliminde en sık kullandığınız 3 kütüphane nelerdir ve neden bu kütüphaneleri tercih edersiniz?")
-
-    # Buraya döngü ve yeni soru oluşturma kısmı gelecek
-    while True:
-        user_answer = st.text_area("Cevap:")
-        if st.button("Devam"):
-            ""
-            # ChatGPT'ya cevabı gönder ve yeni soru al (bu kısım henüz tamamlanmadı)
-            # Örneğin:
-            # yeni_soru = ChatGPT.generate_question(user_answer)
-            # st.text_area("ChatGPT:", yeni_soru)
-
-                
-        else:
-            break
+    return [position, level]
 
 
+user_selection = get_user_selection()
+
+if "interview_started" not in st.session_state:
+    st.session_state.interview_started = False
+if "current_question" not in st.session_state:
+    st.session_state.current_question = None
+if "user_input" not in st.session_state:
+    st.session_state.user_input = ""
+if "interview_log" not in st.session_state:
+    st.session_state.interview_log = []
+if "interview_context" not in st.session_state:
+    st.session_state.interview_context = []
 
 
-# # Doğru cevapları içeren bir DataFrame (örnek)
-# correct_answers = pd.DataFrame({'question': ['Veri biliminde en sık kullandığınız 3 kütüphane nelerdir?', ...],
-#                                'answer': ['pandas, numpy, scikit-learn', ...]})
+def generate_interview_question(position, level):
+    # Generate a question based on the user's selected position and level
+    question_prompt = (
+        f"The candidate is applying for a position in {position} at the {level} level. "
+        f"Here is the context so far: {st.session_state.interview_context}. "
+        f"Please provide the next interview question."
+    )
 
-# # NLP modeli yükleme (örnek: BERT)
-# nlp = pipeline("feature-extraction", model="bert-base-uncased")
+    inputs = tokenizer.encode(question_prompt, return_tensors="pt")
+    outputs = model.generate(inputs, max_length=500, max_new_tokens=100, pad_token_id=tokenizer.eos_token_id)
+    question = tokenizer.decode(outputs[0], skip_special_tokens=True)
 
-# # Cevap değerlendirmesi
-# if st.button("Değerlendir"):
-#     user_answer = st.text_area("Cevap:")
-#     # Doğru cevabı bul
-#     correct_answer = correct_answers[correct_answers['question'] == "Veri biliminde en sık kullandığınız 3 kütüphane nelerdir?"]['answer'].values[0]
-#     # Semantik benzerlik hesaplama
-#     similarity_score = nlp(user_answer)[0].dot(nlp(correct_answer)[0]) / (np.linalg.norm(nlp(user_answer)[0]) * np.linalg.norm(nlp(correct_answer)[0]))
-#     # Puanlama
-#     if similarity_score > 0.8:
-#         st.success("Harika bir cevap!")
-#     else:
-#         st.warning("Cevabınızda eksiklikler olabilir.")
+    # Soru ve bağlamı güncelle
+    st.session_state.interview_context.append(question)
+    return question
 
 
-# #ana sayfaya dön
-# def open_main():                   
-#     url = 'http://localhost:8501'  
-#     webbrowser.open_new_tab(url)
+def evaluate_answer(question, user_answer):
+    """
+    Kullanıcının verdiği cevabı değerlendirir ve doğru ya da yanlış olduğunu belirtir.
+    Yanlışsa doğrusunu sağlar.
+    """
+    prompt = f"The question was: {question}\nThe answer provided is: {user_answer}\nIs the answer correct? If not, please provide the correct answer."
+    inputs = tokenizer.encode(prompt, return_tensors="pt")
+    outputs = model.generate(inputs, max_length=500, max_new_tokens=100, pad_token_id=tokenizer.eos_token_id)
+    evaluation = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    return evaluation
 
-# st.button("Ana Sayfaya Dön", on_click=open_main)
+
+if not st.session_state.interview_started:
+    if st.button("Mülakatı Başlat!"):
+        st.session_state.interview_started = True
+        st.session_state.current_question = generate_interview_question(user_selection[0], user_selection[1])
+else:
+    st.info("Bu oturumda GPT-2 modeli ile teknik mülakat yapılacaktır.")
+
+    if st.session_state.current_question is None:
+        st.session_state.current_question = generate_interview_question(user_selection[0], user_selection[1])
+
+    st.text_area("GPT-2 Sorusu:", st.session_state.current_question, key="current_question_display", height=150)
+
+    st.session_state.user_input = st.text_area("Cevabınızı Girin:", st.session_state.user_input, key="user_input_key",
+                                               height=150)
+
+    if st.button("Değerlendir"):
+        if st.session_state.user_input.strip():
+            st.session_state.interview_log.append({
+                "question": st.session_state.current_question,
+                "answer": st.session_state.user_input
+            })
+
+            feedback = evaluate_answer(st.session_state.current_question, st.session_state.user_input)
+            st.write("Değerlendirme:", feedback)
+
+            st.session_state.user_input = ""
+            st.session_state.current_question = generate_interview_question(user_selection[0], user_selection[1])
+    else:
+        st.text("Mülakat devam ediyor, lütfen cevabınızı girin.")
