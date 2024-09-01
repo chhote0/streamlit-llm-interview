@@ -16,12 +16,12 @@ st.markdown(
 def add_gif(gif_url):
     gif_data = base64.b64encode(open(gif_url, "rb").read()).decode("utf-8")
     st.markdown(
-        f'<img src="data:image/gif;base64,{gif_data}" alt="Welcome GIF" style="display:block; margin-left:auto; margin-right:auto; width: 20%; height: auto; border-radius: 8px; margin-top: -20px;">',
+        f'<img src="data:image/gif;base64,{gif_data}" alt="Welcome GIF" style="display:block; margin-left:auto; margin-right:auto; width: 40%; height: auto; border-radius: 8px; margin-top: -20px;">',
         unsafe_allow_html=True,
     )
 
 # Hoşgeldiniz yazısı altına GIF ekleyin
-gif_path = "Animation - 1725102837238.gif" 
+gif_path = "gif -2.gif"
 add_gif(gif_path)
 
 
