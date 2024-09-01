@@ -4,7 +4,7 @@ import base64
 # Sayfa ayarları
 st.set_page_config(page_title="Yapay Zeka ile Mülakata Hoş Geldiniz", layout="centered")
 
-# Sayfanın ortasında yazı
+# yazıyı ortalama
 st.markdown(
     "<div style='display: flex; flex-direction: column; align-items: center; height: 50vh; justify-content: center;'>"
     "<h1 style='text-align: center; font-size: 3rem;'>📝 Yapay Zeka ile Mülakata Hoş Geldiniz</h1>"
@@ -21,10 +21,10 @@ def add_gif(gif_url):
     )
 
 # Hoşgeldiniz yazısı altına GIF ekleyin
-gif_path = "Animation - 1725102837238.gif"  # Kullanmak istediğiniz GIF'in yolunu belirtin
+gif_path = "Animation - 1725102837238.gif" 
 add_gif(gif_path)
 
-# GIF altına etkileyici bir yazı
+
 st.markdown(
     "<div style='text-align: center; font-size: 1.25rem; margin-top: 10px; margin-bottom: 40px;'>"
     "<p>Bu platform, iş arayanlar ve profesyoneller için geleceğin mülakat deneyimini sunuyor. İster kendinizi geliştirmek için farklı yapay zeka tabanlı chat botlarla iletişim kurun, ister bir mülakat simülasyonu ile gerçekçi bir deneyim yaşayın. Her biri özenle tasarlanmış botlarımız, sizi profesyonel olarak bir adım öne taşıyacak kişisel ve pozisyonunuza özel sorular ile en iyi versiyonunuzu ortaya çıkarmanıza yardımcı olacak. Şimdi başlayın ve geleceğin iş dünyasına bir adım önde girin. </p>"
