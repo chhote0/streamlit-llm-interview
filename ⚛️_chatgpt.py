@@ -19,13 +19,23 @@ def get_user_selection():
     if 'selected_level' not in st.session_state:
         st.session_state.selected_level = "Junior"
 
-    position = st.selectbox('Pozisyon Seçin', [
-        "Yazılım Geliştirici", "Veri Bilimci", "Makine Öğrenimi Mühendisi", "Sistem Mühendisi",
-        "Ağ Mühendisi", "Siber Güvenlik Uzmanı", "Mobil Geliştirici", "Oyun Geliştirici"],
-                            index=st.session_state.get('selected_position_index', 0))
+    position = st.selectbox('Select Your Position', [
+        "Web Development", "Mobile App Development", "Game Development",
+        "Software Engineering", "DevOps", "Data Science",
+        "Machine Learning", "Artificial Intelligence",
+        "Natural Language Processing", "Computer Vision",
+        "Cybersecurity", "Ethical Hacking", "Penetration Testing",
+        "Information Security", "Cloud Computing", "Cloud Architecture",
+        "Cloud Security", "Database Administration", "Network Engineering",
+        "UI/UX Design", "Blockchain Development", "IoT Development",
+        "Virtual Reality", "Augmented Reality", "Embedded Systems",
+        "Quantum Computing", "Bioinformatics", "Scientific Computing",
+        "Financial Technology", "E-commerce Development", "Education Technology"
+    ], index=st.session_state.get('selected_position_index', 0))
 
-    level = st.selectbox('Deneyim Seviyesi', ["Junior", "Orta", "Kıdemli", "Uzman"],
-                         index=st.session_state.get('selected_level_index', 0))
+    level = st.selectbox('Select Your Level', [
+        "Junior", "Middle", "Senior", "Expert"
+    ], index=st.session_state.get('selected_level_index', 0))
 
     st.session_state.selected_position = position
     st.session_state.selected_level = level
@@ -105,5 +115,3 @@ else:
             st.session_state.current_question = generate_interview_question(user_selection[0], user_selection[1])
     else:
         st.text("Mülakat devam ediyor, lütfen cevabınızı girin.")
-
-
