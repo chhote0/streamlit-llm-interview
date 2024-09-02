@@ -105,3 +105,5 @@ else:
             st.session_state.current_question = generate_interview_question(user_selection[0], user_selection[1])
     else:
         st.text("Mülakat devam ediyor, lütfen cevabınızı girin.")
+
+
