@@ -39,10 +39,15 @@ mulakat_page = st.Page(
     default = True,    
 )
 
-
+mulakat_page = st.Page(
+    page = "resume_reader.py",
+    title = "Cv Okuyucu",
+    icon = ":material/account_circle:",
+    default = True,
+)
 
 pg = st.navigation(pages=[st.Page("✋_app.py"), st.Page("🦙_llama.py"), st.Page("🤖_mistral.py"), 
-                          st.Page("⚛️_chatgpt.py"), st.Page("🗣️_mulakat.py")])
+                          st.Page("⚛️_chatgpt.py"), st.Page("🗣️_mulakat.py"), st.Page("resume_reader.py")])
 
 pg.run()
 
