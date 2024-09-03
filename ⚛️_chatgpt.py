@@ -2,7 +2,7 @@ import streamlit as st
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 import torch
 
-st.title("GPT-2 ile Teknik Mülakat Simülasyonu")
+st.title("💬ChatGPT-2")
 
 # GPT-2 modelini ve tokenizer'ı Hugging Face'ten yükleyin
 model_name = "openai-community/gpt2"

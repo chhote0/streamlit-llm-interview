@@ -1,0 +1,13 @@
+Install before run;
+
+-Ollama / Llama
+
+-Mistral
+pip install mistral_inference
+pip install torch==2.4.0+cu121 torchvision torchaudio --extra-index-url  https://download.pytorch.org/whl/cu121  
+pip install --upgrade xformers
+
+
+and 
+
+imported libraries
